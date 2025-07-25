@@ -139,7 +139,7 @@ class TaskCompleteView(APIView):
     def patch(self, request, pk):
         """
         Update the task's completion status to True.
-    
+
         Args:
             pk: Primary key of the task to be marked as completed.
 

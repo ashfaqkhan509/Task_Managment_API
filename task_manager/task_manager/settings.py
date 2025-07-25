@@ -91,7 +91,8 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),
 
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
+        'NAME': env('DB_NAME', default='task_manager_test'),
+        # 'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
