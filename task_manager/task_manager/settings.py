@@ -100,8 +100,7 @@ DATABASES = {
     }
 }
 
-# Use SQLite for tests or GitHub Actions
-if 'test' in sys.argv or os.environ.get('GITHUB_WORKFLOW'):
+if 'test' in sys.argv or os.environ.get('GITHUB_WORKFLOW') or os.environ.get('DJANGO_TEST'):
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'test_db.sqlite3',
