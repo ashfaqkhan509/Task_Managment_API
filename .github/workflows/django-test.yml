@@ -32,14 +32,19 @@ jobs:
     defaults:
       run:
         working-directory: task_manager
+    
+    services:
+      # Optional: If your tests require a database like PostgreSQL
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_DB: task_manager_test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
 
     env:
-      DJANGO_TEST: "true"        # Force SQLite for tests
-      DB_NAME: task_manager_db
-      DB_USER: ashfaq
-      DB_PASSWORD: 617680
-      DB_HOST: localhost
-      DB_PORT: 5432
       CELERY_BROKER_URL: redis://localhost:6379/0
       CELERY_RESULT_BACKEND: redis://localhost:6379/0
       EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
