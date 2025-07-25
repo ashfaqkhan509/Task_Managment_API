@@ -32,16 +32,21 @@ jobs:
     defaults:
       run:
         working-directory: task_manager
-    
+
     services:
       postgres:
         image: postgres:12
         env:
-          DB_NAME: task_manager_test_db
-          DB_USER: postgres
-          DB_PASSWORD: postgres
+          POSTGRES_DB: task_manager_test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
         ports:
           - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     env:
       CELERY_BROKER_URL: redis://localhost:6379/0
@@ -68,19 +73,27 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        
+
       - name: Set environment variables
         run: |
-          echo "DB_NAME=test_db" >> $GITHUB_ENV
+          echo "DB_NAME=task_manager_test_db" >> $GITHUB_ENV
           echo "DB_USER=postgres" >> $GITHUB_ENV
           echo "DB_PASSWORD=postgres" >> $GITHUB_ENV
           echo "DB_HOST=127.0.0.1" >> $GITHUB_ENV
           echo "DB_PORT=5432" >> $GITHUB_ENV
           echo "DJANGO_SETTINGS_MODULE=task_manager.settings" >> $GITHUB_ENV
 
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h 127.0.0.1 -p 5432 -U postgres; do
+            echo "Waiting for Postgres..."
+            sleep 2
+          done
+
       - name: Run Django Migrations
         run: |
           python manage.py migrate
+
       - name: Run Tests
         run: |
           python manage.py test
