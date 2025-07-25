@@ -34,13 +34,12 @@ jobs:
         working-directory: task_manager
     
     services:
-      # Optional: If your tests require a database like PostgreSQL
       postgres:
         image: postgres:12
         env:
-          POSTGRES_DB: task_manager_test_db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+          DB_NAME: task_manager_test_db
+          DB_USER: postgres
+          DB_PASSWORD: postgres
         ports:
           - 5432:5432
 
