@@ -14,6 +14,7 @@ from pathlib import Path
 import environ
 import os
 from datetime import timedelta
+import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -91,14 +92,23 @@ DATABASES = {
         # 'NAME': os.path.join(BASE_DIR, 'db', 'db.sqlite3'),
 
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME', default='task_manager_test'),
-        # 'NAME': env('DB_NAME'),
+        'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
     }
 }
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env('TEST_DB_NAME', default='task_manager_test'),
+        'USER': env('TEST_DB_USER', default='postgres'),
+        'PASSWORD': env('TEST_DB_PASSWORD', default='postgres'),
+        'HOST': env('TEST_DB_HOST', default='localhost'),
+        'PORT': env('TEST_DB_PORT', default='5432'),
+    }
 
 
 # Password validation
