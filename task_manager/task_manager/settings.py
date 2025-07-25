@@ -14,7 +14,6 @@ from pathlib import Path
 import environ
 import os
 from datetime import timedelta
-import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -100,11 +99,6 @@ DATABASES = {
     }
 }
 
-if 'test' in sys.argv or os.environ.get('GITHUB_WORKFLOW') or os.environ.get('DJANGO_TEST'):
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'test_db.sqlite3',
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -190,24 +184,18 @@ SPECTACULAR_SETTINGS = {
     'VERSION': '1.0.0',
 }
 
-# Email configuration
+# Email configuration (from .env)
 EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
 EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = env.int('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='test@example.com')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='testpassword')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# Celery configuration (with safe defaults for tests)
-CELERY_BROKER_URL = env(
-    'CELERY_BROKER_URL',
-    default='redis://localhost:6379/0'
-)
-CELERY_RESULT_BACKEND = env(
-    'CELERY_RESULT_BACKEND',
-    default='redis://localhost:6379/0'
-)
+# Celery configuration (from .env)
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = env('CELERY_RESULT_BACKEND')
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

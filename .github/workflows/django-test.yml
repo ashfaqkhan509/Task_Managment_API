@@ -33,6 +33,24 @@ jobs:
       run:
         working-directory: task_manager
 
+    env:
+      DJANGO_TEST: "true"        # Force SQLite for tests
+      DB_NAME: task_manager_db
+      DB_USER: ashfaq
+      DB_PASSWORD: 617680
+      DB_HOST: localhost
+      DB_PORT: 5432
+      CELERY_BROKER_URL: redis://localhost:6379/0
+      CELERY_RESULT_BACKEND: redis://localhost:6379/0
+      EMAIL_BACKEND: django.core.mail.backends.smtp.EmailBackend
+      EMAIL_HOST: smtp.gmail.com
+      EMAIL_PORT: 587
+      EMAIL_USE_TLS: "True"
+      EMAIL_HOST_USER: ashfaq319535@gmail.com
+      EMAIL_HOST_PASSWORD: aahb qxwh uzzm xifx
+      DEFAULT_FROM_EMAIL: ashfaq319535@gmail.com
+      TZ: Asia/Karachi
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
