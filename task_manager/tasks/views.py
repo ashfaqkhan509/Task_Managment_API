@@ -46,7 +46,7 @@ class UserRegisterView(generics.CreateAPIView):
 class UserLoginView(APIView):
     """
     API endpoint for user authentication.
-    
+
     Accepts username and password credentials.
     Returns JWT tokens (access and refresh) upon successful authentication.
     """
@@ -71,10 +71,10 @@ class UserLoginView(APIView):
         refresh_token = RefreshToken.for_user(user)
 
         response_data = {
-        "user": UserSerializer(user).data,
-        "refresh": str(refresh_token),
-        "access": str(refresh_token.access_token),
-        "message": "Login successful."
+            "user": UserSerializer(user).data,
+            "refresh": str(refresh_token),
+            "access": str(refresh_token.access_token),
+            "message": "Login successful."
         }
         return Response(
             response_data,
@@ -113,7 +113,7 @@ class TaskListCreateView(generics.ListCreateAPIView):
 class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     API endpoint for retrieving, updating, or deleting a specific task.
-    
+
     Requires authentication.
     Only allows access to tasks owned by the authenticated user.
     """
@@ -130,7 +130,7 @@ class TaskDetailView(generics.RetrieveUpdateDestroyAPIView):
 class TaskCompleteView(APIView):
     """
     API endpoint for marking a task as completed.
-    
+
     Requires authentication.
     Only the task owner can mark a task as completed.
     """
@@ -139,10 +139,10 @@ class TaskCompleteView(APIView):
     def patch(self, request, pk):
         """
         Update the task's completion status to True.
-        
+    
         Args:
             pk: Primary key of the task to be marked as completed.
-            
+
         Returns:
             Success message or error if task not found.
         """
@@ -165,7 +165,7 @@ class TaskCompleteView(APIView):
 class TaskShareView(APIView):
     """
     API endpoint for sharing a task with another user.
-    
+
     Requires authentication.
     Only the task owner can share the task.
     Accepts either user_id or email to identify the user to share with.
@@ -175,14 +175,14 @@ class TaskShareView(APIView):
     def post(self, request, pk):
         """
         Share a task with another user.
-        
+
         Args:
             pk: Primary key of the task to be shared.
-            
+
         Request Body:
             user_id: ID of the user to share with, or
             email: Email of the user to share with
-            
+
         Returns:
             Success message or error if task/user not found.
         """

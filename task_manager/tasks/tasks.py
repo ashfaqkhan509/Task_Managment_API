@@ -14,13 +14,22 @@ def send_due_task_reminders():
     now = timezone.now()
     upcoming_time = now + timedelta(hours=24)
 
-    tasks_due = Task.objects.filter(is_completed=False, due_date__range=(now, upcoming_time))
+    tasks_due = Task.objects.filter(
+        is_completed=False,
+        due_date__range=(now, upcoming_time)
+    )
 
     for task in tasks_due:
-        
+        subject = f"Reminder: '{task.title}' is due soon"
+        message = (
+            f"Hi {task.owner.username},\n\n"
+            f"Your task '{task.title}' is due by {task.due_date}. "
+            f"Please complete it on time."
+        )
+
         send_mail(
-            subject=f"Reminder: '{task.title}' is due soon",
-            message=f"Hi {task.owner.username},\n\nYour task '{task.title}' is due by {task.due_date}. Please complete it on time.",
+            subject=subject,
+            message=message,
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[task.owner.email],
             fail_silently=False,

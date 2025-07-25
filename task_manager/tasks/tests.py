@@ -271,7 +271,7 @@ class RateLimitingTests(APITestCase):
 
 class TaskReminderTests(APITestCase):
     """
-    Test suite for verifying the Reminder task that sned mail to 
+    Test suite for verifying the Reminder task that sned mail to
     those user whose task is duw by 24 hours.
     """
     def setUp(self):

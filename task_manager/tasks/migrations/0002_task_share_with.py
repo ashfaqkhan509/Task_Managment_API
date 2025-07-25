@@ -15,6 +15,10 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='task',
             name='share_with',
-            field=models.ManyToManyField(blank=True, related_name='shared_tasks', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(
+                blank=True,
+                related_name='shared_tasks',
+                to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]
