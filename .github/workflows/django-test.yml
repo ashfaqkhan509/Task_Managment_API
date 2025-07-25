@@ -1,7 +1,13 @@
 name: Django CI
 
 on:
-  [push, pull_request]
+  pull_request:
+    branches:
+      - main  # or your default branch
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   flake8-lint:
